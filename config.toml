@@ -6,7 +6,7 @@ name="Lee"
 theme = "hugo_theme_robust"
 preserveTaxonomyNames = true
 googleAnalytics = "UA-99604336-1"
-disqusShortname="かもかも"
+disqusShortname = "kamolog"
 
 [author]
   name="kamo"
