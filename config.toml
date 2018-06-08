@@ -1,4 +1,4 @@
-baseURL = "http://kamo.netlify.com"
+baseURL = "http://kamo.netlify.com/"
 languageCode = "ja"
 title = "kamo.log"
 hasCJKLanguage = true
