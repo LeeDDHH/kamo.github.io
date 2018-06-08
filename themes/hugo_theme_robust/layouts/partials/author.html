@@ -1,0 +1,20 @@
+{{ with .Site.Params.author }}
+<section class="sidebar">
+  <header>Who am i?</header>
+  <div>
+    <div class="author">
+      {{ with .thumbnail }}
+      <a href="{{ $.Site.BaseURL }}">
+      <div class="author-thumb" style="background-image: url({{ $.Site.BaseURL }}{{ . }});"></div>
+      </a>
+      {{ end }}
+      <div class="author-name">{{ .name }}</div>
+      <ul class="author-facts">
+        {{ with .twitter }}<li><a href="{{ . }}" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>{{ end }}
+        {{ with .github }}<li><a href="{{ . }}" rel="nofollow" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a></li>{{ end }}
+      </ul>
+      <div class="author-description">{{ .description | safeHTML }}</div>
+    </div>
+  </div>
+</section>
+{{ end }}

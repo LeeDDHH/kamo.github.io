@@ -1,0 +1,10 @@
+<section class="sidebar">
+  <header>LATESTS</header>
+  <div>
+    <div class="articles sm">
+      {{ range $i, $p := (where .Site.Pages "Type" "post") 1 }}
+      {{ .Render "li_sm" }}
+      {{ end }}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+
+@media (min-width: 768px) {
+    .unsplash_taker {
+        top:320px;left:10px;
+    }
+  }
+
+@media (max-width: 768px) {
+    .unsplash_taker {
+        top:120px;left:10px;
+    }
+}
+
+.ccby {
+    padding: 0;
+  }
+  
+  .ccby img {
+    min-width: 1rem;
+    height: 2rem;
+  }

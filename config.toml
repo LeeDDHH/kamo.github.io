@@ -1,0 +1,32 @@
+baseURL = "http://localhost:1313/"
+languageCode = "ja"
+title = "kamo.log"
+hasCJKLanguage = true
+name="Lee"
+theme = "hugo_theme_robust"
+preserveTaxonomyNames = true
+googleAnalytics = "UA-99604336-1"
+disqusShortname="かもかも"
+
+[author]
+  name="kamo"
+
+[params]
+  # Fonts settings.
+  googlefonts = "https://fonts.googleapis.com/css?family=Lobster|Lato:400,700" # Optional, Include google fonts.
+  fontfamily = "Lato,YuGothic,'Hiragino Kaku Gothic Pro',Meiryo,sans-serif" # Optional, Override body font family.
+  #logofontfamily = "Lobster, cursive" # Optional, Override logo font.
+
+[params.author]
+  thumbnail = "FJxFPJAR_400x400.jpg"
+  name = "かも(仮)"
+  description = "<p>まだまだ先の長いプログラマー。</p><p>work : { php, js(ES5), jquery }<br>study : { react-native, ionic, json, MVC, etc }<br>doing : { cycling, watch youtube, actioncamera }</p>"
+  twitter = "https://twitter.com/camomile_cafe"
+  github = "https://github.com/LeeDDHH"
+
+[outputs]
+page = [ "HTML" ]
+
+[permalinks]
+post = "/archives/:year:month:day/"
+about = "/readme/:year:month:day/"
