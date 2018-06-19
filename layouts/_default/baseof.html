@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {{ partial "meta.html" . }}
+    {{ with .Site.Params.googlefonts }}
+    <link href="{{ . }}" rel="stylesheet">
+    {{ else }}
+    <link href="//fonts.googleapis.com/css?family=Roboto+Slab:400,700" rel="stylesheet">
+    {{ end }}
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <title>{{ block "title" . }}{{ end }}{{ .Site.Title }}</title>
+    {{ block "meta" . }}{{ end }}
+    <style>
+      {{ replaceRE " +" " " (replaceRE "\n" "" (partial "styles.css" .)) | safeCSS }}
+      {{ replaceRE " +" " " (replaceRE "\n" "" (partial "custom.css" .)) | safeCSS }}
+      {{ with .Site.Params.fontfamily }} body { font-family: {{ . | safeCSS }}; } {{ end }}
+      {{ with .Site.Params.logofontfamily }} .h-logo { font-family: {{ . | safeCSS }}; } {{ end }}
+    </style>
+    
+  </head>
+
+  <body>
+    {{ if ne (getenv "HUGO_ENV") "DEV" }}
+    {{ template "_internal/google_analytics.html" . }}
+    {{ end }}
+
+    <header class="l-header">
+      <div class="l-container">
+        <div class="logo">
+          <a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
+        </div>
+        {{ partial "description.html" . }}
+      </div>
+    </header>
+
+    <main>
+      <div class="l-container">
+        {{ block "main" . }}{{ end }}
+      </div>
+    </main>
+
+    <footer class="l-footer">
+      <div class="l-container">
+        <p>{{ with .Site.Copyright }}{{ . | safeHTML }}{{ else }}<span class="h-logo">&copy; {{ .Site.Title }}</span>{{ end }}</p>
+        <aside>
+          <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
+          <p><a href="https://github.com/dim0627/hugo_theme_robust">Robust</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
+        </aside>
+      </div>
+    </footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    {{ with .Site.Params.googlemapkey }}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ . }}"
+    ></script>
+    <!-- async defer></script> -->
+    {{ end }}
+
+    <script>
+        {{ with .Params.test }}
+        var maps = {{ . }}
+        {{ end }}
+        // window.onload = function() {
+        //   initMap();
+        // }
+          // function initMap(id, address, z) {
+          function initMap() {
+
+            var array = [];
+            var array2 = [];
+            var j = 0;
+            for(var i =0; i < maps.length; i++){
+              id = maps[i][0];
+              address = maps[i][1];
+              z = maps[i][2];
+              array2[id] = i;
+
+              var geocoder = new google.maps.Geocoder();
+  
+              var mapOptions = {
+                zoom: Number(z),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+              };
+
+              array[i] = new google.maps.Map(document.getElementById(id), mapOptions);
+  
+              
+              
+              geocoder.geocode( { 'address': address}, function(results, status) {
+                console.log(j);
+                if (status == google.maps.GeocoderStatus.OK) {
+                  // google.maps.Map()コンストラクタに定義されているsetCenter()メソッドで
+                  // 変換した緯度・経度情報を地図の中心に表示
+                  array[j].setCenter(results[0].geometry.location);
+  
+                  // 地図上に目印となるマーカーを設定います。
+                  // google.maps.Marker()コンストラクタにマーカーを設置するMapオブジェクトと
+                  // 変換した緯度・経度情報を渡してインスタンスを生成
+                  // →マーカー詳細
+                  var marker = new google.maps.Marker({
+                    map: array[j],
+                    position: results[0].geometry.location
+                  });
+                // ジオコーディングが成功しなかった場合
+                } else {
+                  console.log('Geocode was not successful for the following reason: ' + status);
+                }
+                
+                if(j < maps.length){
+                  j++;
+                }
+
+              });
+            }
+          }
+          google.maps.event.addDomListener(window, 'load', initMap);
+        </script>
+
+  </body>
+</html>
+

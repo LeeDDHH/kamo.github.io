@@ -10,6 +10,7 @@ unsplash_taker = "JOHN TOWNER"
 cc="cc.svg"
 by="by.svg"
 toc = true
+test=[ ["mitaka", "ミタカフェ", "18"], ["manito", "新大久保　マニト", "18"] ]
 
 +++
 
@@ -31,6 +32,8 @@ toc = true
 
 やりたいことを見つけるために、他の人たちのやっていることを参考にしています。
 
+
+<!-- {{% map id="mitaka" %}} -->
 
 ## 今に至るまでの経緯
 
@@ -128,6 +131,8 @@ toc = true
 
 という面で話を伺っていました。
 </aside>
+
+<!-- {{% map id="manito" %}} -->
 
 ## まとめ
 
