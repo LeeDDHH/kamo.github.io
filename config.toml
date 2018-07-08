@@ -7,6 +7,8 @@ theme = "hugo_theme_robust"
 preserveTaxonomyNames = true
 googleAnalytics = "UA-99604336-1"
 disqusShortname = "kamolog"
+DefaultContentLanguage= 'ja'
+
 
 [author]
   name="kamo"
@@ -20,8 +22,6 @@ disqusShortname = "kamolog"
 
 [params.author]
   thumbnail = "FJxFPJAR_400x400.jpg"
-  name = "かも(仮)"
-  description = "<p>まだまだ先の長いプログラマー。</p><p>work : { php, js(ES5), jquery }<br>study : { react-native, ionic, json, MVC, etc }<br>doing : { cycling, watch youtube, actioncamera }</p>"
   twitter = "https://twitter.com/camomile_cafe"
   github = "https://github.com/LeeDDHH"
 
@@ -29,5 +29,41 @@ disqusShortname = "kamolog"
 page = [ "HTML" ]
 
 [permalinks]
-post = "/archives/:year:month:day/"
+post = "/archives/:year/:month/:slug/"
 about = "/readme/:year:month:day/"
+
+[Multilingual]
+  [Multilingual.ja]
+    weight= 1
+    other= "key1"
+  [Multilingual.ko]
+    weight= 2
+    other= "key2"
+
+[languages]
+  [languages.ja]
+    title = "kamo.log"
+    weight = 1
+    [languages.ja.params]
+      linkedin = "english-link"
+      LanguageName= "日本語"
+      [languages.ja.params.author]
+      thumbnail = "FJxFPJAR_400x400.jpg"
+      twitter = "https://twitter.com/camomile_cafe"
+      github = "https://github.com/LeeDDHH"
+      name = "かも(仮)"
+      description = "<p>まだまだ先の長いプログラマー。</p><p>work : { php, js(ES5), jquery }<br>study : { react-native, ionic, json, MVC, etc }<br>doing : { cycling, watch youtube, actioncamera }</p>"
+  [languages.ko]
+    title = "카모log"
+    weight = 2
+    [languages.ko.params]
+      linkedin = "lien-francais"
+      LanguageName= "한국어"
+      [languages.ko.params.navigation]
+        help = "Aide"
+      [languages.ko.params.author]
+      thumbnail = "FJxFPJAR_400x400.jpg"
+      twitter = "https://twitter.com/camomile_cafe"
+      github = "https://github.com/LeeDDHH"
+      name = "카모"
+      description = "<p>앞으로 해야할 것이 많은 프로그래머 </p><p>work : { php, js(ES5), jquery }<br>study : { react-native, ionic, json, MVC, etc }<br>doing : { cycling, watch youtube, actioncamera }</p>"

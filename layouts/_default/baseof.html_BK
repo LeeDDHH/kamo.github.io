@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {{ partial "meta.html" . }}
+    {{ with .Site.Params.googlefonts }}
+    <link href="{{ . }}" rel="stylesheet">
+    {{ else }}
+    <link href="//fonts.googleapis.com/css?family=Roboto+Slab:400,700" rel="stylesheet">
+    {{ end }}
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <title>{{ block "title" . }}{{ end }}{{ .Site.Title }}</title>
+    {{ block "meta" . }}{{ end }}
+    <style>
+      {{ replaceRE " +" " " (replaceRE "\n" "" (partial "styles.css" .)) | safeCSS }}
+      {{ replaceRE " +" " " (replaceRE "\n" "" (partial "custom.css" .)) | safeCSS }}
+      {{ with .Site.Params.fontfamily }} body { font-family: {{ . | safeCSS }}; } {{ end }}
+      {{ with .Site.Params.logofontfamily }} .h-logo { font-family: {{ . | safeCSS }}; } {{ end }}
+    </style>
+    
+  </head>
+
+  <body>
+    {{ if ne (getenv "HUGO_ENV") "DEV" }}
+    {{ template "_internal/google_analytics.html" . }}
+    {{ end }}
+
+    <header class="l-header">
+      <div class="l-container">
+        <div class="logo">
+          <a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
+        </div>
+        {{ partial "description.html" . }}
+      </div>
+    </header>
+
+    
+
+    <main>
+      <div class="l-container">
+          {{ if .IsTranslated }}
+          {{ range .Translations }}
+          <div style="text-align:right;">
+            <a rel="alternate" href="{{ .RelPermalink }}" hreflang="{{ .Lang }}" lang="{{ .Lang }}">{{ .Site.Language.Params.LanguageName }}</a>
+          </div>
+          {{ end }}
+          {{ end }}
+        {{ block "main" . }}{{ end }}
+      </div>
+    </main>
+
+    <footer class="l-footer">
+      <div class="l-container">
+        <p>{{ with .Site.Copyright }}{{ . | safeHTML }}{{ else }}<span class="h-logo">&copy; {{ .Site.Title }}</span>{{ end }}</p>
+        <aside>
+          <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
+          <p><a href="https://github.com/dim0627/hugo_theme_robust">Robust</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
+        </aside>
+      </div>
+    </footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    {{ with .Site.Params.googlemapkey }}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ . }}"
+    ></script>
+    <!-- async defer></script> -->
+    {{ end }}
+    
+    {{ if isset .Params "map" }}
+      {{ partial "map_marker.js" . }}
+    {{ end }}
+
+    {{ if isset .Params "map_directions" }}
+      {{ partial "map_direction.js" . }}
+    {{ end }}
+
+    <!-- {{ if isset .Params "map_directions" }}
+    <script>
+        {{ with .Params.map_directions }}
+        var map_d = {{ . }}
+        {{ end }}
+        // window.onload = function() {
+        //   initMap();
+        // }
+          // function initMap(id, address, z) {
+          function directionMap() {
+
+            var array3 = [];
+            var array4 = [];
+            var array5 = [];
+            var array6 = [];
+
+            var j = 0;
+            for(var i =0; i < map_d.length; i++){
+              id = map_d[i][0];
+              strt = map_d[i][1];
+              end = map_d[i][2];
+              z = map_d[i][3];
+              array5[id] = i;
+              
+              var geocoder = new google.maps.Geocoder();
+  
+              // var mapOptions = {
+              //   zoom: Number(z),
+              //   mapTypeId: google.maps.MapTypeId.ROADMAP
+              // };
+
+              // array3[i] = new google.maps.Map(document.getElementById(id), mapOptions);
+              a = new google.maps.LatLng(35.681167, 139.767052);
+              b = new google.maps.DirectionsService();
+              c = new google.maps.DirectionsRenderer();
+              console.log(c);
+              // array3[i] = new google.maps.LatLng(35.681167, 139.767052);
+              // array4[i] = new google.maps.DirectionsService();
+              // array5[i] = new google.maps.DirectionsRenderer();
+
+              var mapOptions = {
+                zoom: Number(z),
+                center: a
+                // center: array3[j]
+              };
+              
+              d = new google.maps.Map(document.getElementById(id), mapOptions);
+              c.setMap(d);
+              // array6[i] = new google.maps.Map(document.getElementById(id), mapOptions);
+              // array5[i].setMap(array6[i]);
+
+              var request = {
+                origin: strt,
+                destination: end,
+                travelMode: 'DRIVING'
+              };
+              console.log(c);
+              // console.log(array5[i]);
+              b.route(request, function(result, status) {
+              // array4[i].route(request, function(result, status) {
+                if (status == 'OK') {
+                  c.setDirections(result);
+                  // array5[i].setDirections(result);
+                }
+              });
+
+              // geocoder.geocode( { 'address': strt}, function(results, status) {
+              //   console.log(j);
+              //   if (status == google.maps.GeocoderStatus.OK) {
+              //     // google.maps.Map()コンストラクタに定義されているsetCenter()メソッドで
+              //     // 変換した緯度・経度情報を地図の中心に表示
+              //     array3[j].setCenter(results[0].geometry.location);
+
+              //     // 地図上に目印となるマーカーを設定います。
+              //     // google.maps.Marker()コンストラクタにマーカーを設置するMapオブジェクトと
+              //     // 変換した緯度・経度情報を渡してインスタンスを生成
+              //     // →マーカー詳細
+                  
+              //     array5[j].setMap(array3[j]);
+              //     console.log(array5[j]);
+              //     request = {
+              //                 origin: strt,
+              //                 destination: end,
+              //                 travelMode: 'DRIVING'
+              //               };
+              //     array4[j].route(request, function(result, status) {
+              //       if (status == 'OK') {
+              //         console.log(result);
+              //         array5[j].setDirections(result);
+              //       }
+              //     }); 
+
+              //   // ジオコーディングが成功しなかった場合
+              //   } else {
+              //     console.log('Geocode was not successful for the following reason: ' + status);
+              //   }
+              //   // console.log(array[j].center);
+              //   if(j < map_d.length){
+              //     j++;
+              //   }
+              // });
+
+              if(j < map_d.length){
+                j++;
+              }
+
+              // array4[i] = new google.maps.Map(document.getElementById(id), mapOptions);
+// console.log(array4[i]);
+              // let promise = new Promise((resolve, reject) => {
+              //   geocoder.geocode( { 'address': strt}, function(results, status) {
+              //     // console.log(j);
+              //     if (status == google.maps.GeocoderStatus.OK) {
+              //       // google.maps.Map()コンストラクタに定義されているsetCenter()メソッドで
+              //       // 変換した緯度・経度情報を地図の中心に表示
+              //       // console.log(array3[j]);
+              //       array3[j].setCenter(results[0].geometry.location);
+
+              //     // ジオコーディングが成功しなかった場合
+              //     } else {
+              //       console.log('Geocode was not successful for the following reason: ' + status);
+              //     }
+              //     resolve()
+              //   });
+              // })
+              
+              // promise.then(() => {
+              //   geocoder.geocode( { 'address': end}, function(results, status) {
+              //     // console.log(j);
+              //     if (status == google.maps.GeocoderStatus.OK) {
+              //       // google.maps.Map()コンストラクタに定義されているsetCenter()メソッドで
+              //       // 変換した緯度・経度情報を地図の中心に表示
+              //       // console.log(array4[j]);
+              //       array4[j].setCenter(results[0].geometry.location);
+
+              //     // ジオコーディングが成功しなかった場合
+              //     } else {
+              //       console.log('Geocode was not successful for the following reason: ' + status);
+              //     }
+              //   });
+
+              //   var directionsDisplay = new google.maps.DirectionsRenderer({
+              //     map: array3[j].center
+              //   });
+              //   console.log(array3[j].center);
+              //   console.log(array4[j].center);
+              //   var request = {
+              //     destination: array4[j].center,
+              //     origin: array3[j].center,
+              //     travelMode: 'DRIVING'
+              //   };
+
+              //   var directionsService = new google.maps.DirectionsService();
+              //   directionsService.route(request, function(response, status) {
+              //     if (status == 'OK') {
+              //       // Display the route on the map.
+              //       directionsDisplay.setDirections(response);
+              //     }
+              //   });
+
+                // if(j < map_d.length){
+                //   j++;
+                // }
+
+              // })
+
+              // geocoder.geocode( { 'address': strt}, function(results, status) {
+                
+              //   if (status == google.maps.GeocoderStatus.OK) {
+              //     // google.maps.Map()コンストラクタに定義されているsetCenter()メソッドで
+              //     // 変換した緯度・経度情報を地図の中心に表示
+              //     array3[j].setCenter(results[0].geometry.location);
+              //     // origin = array3[j].setCenter(results[0].geometry.location);
+                  
+              //     // 地図上に目印となるマーカーを設定います。
+              //     // google.maps.Marker()コンストラクタにマーカーを設置するMapオブジェクトと
+              //     // 変換した緯度・経度情報を渡してインスタンスを生成
+              //     // →マーカー詳細
+
+              //     // var marker = new google.maps.Marker({
+              //     //   map: array[j],
+              //     //   position: results[0].geometry.location
+              //     // });
+              //     geocoder.geocode( { 'address': end}, function(results, status) {
+              //       if (status == google.maps.GeocoderStatus.OK) {
+              //         console.log('timing');
+              //         array4[j].setCenter(results[0].geometry.location);
+              //         // direction = results[0].geometry.location;
+
+              //       }else{
+              //         console.log('Geocode was not successful for the following reason: ' + status);
+              //       }
+
+              //     });
+
+              //     var directionsDisplay = new google.maps.DirectionsRenderer({
+              //       map: array3[j]
+              //     });
+              //     console.log(array3[j].center);
+              //     console.log(array4[j].center);
+              //     var request = {
+              //       destination: array4[j].center,
+              //       origin: array3[j].center,
+              //       travelMode: 'DRIVING'
+              //     };
+
+              //   // ジオコーディングが成功しなかった場合
+              //   } else {
+              //     console.log('Geocode was not successful for the following reason: ' + status);
+              //   }
+
+              //   var directionsService = new google.maps.DirectionsService();
+              //   directionsService.route(request, function(response, status) {
+              //     if (status == 'OK') {
+              //       // Display the route on the map.
+              //       directionsDisplay.setDirections(response);
+              //     }
+              //   });
+
+              //   if(j < map_d.length){
+              //     j++;
+              //   }
+
+              // });
+            }
+          }
+          google.maps.event.addDomListener(window, 'load', directionMap);
+        </script>
+    {{ end }} -->
+
+  </body>
+</html>
+

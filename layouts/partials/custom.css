@@ -32,7 +32,20 @@
     padding: 0;
   }
   
-  .ccby img {
+.ccby img {
     min-width: 1rem;
     height: 2rem;
-  }
+}
+
+.blue {
+    color:blue;
+}
+.green {
+    color:green;
+}
+.orange {
+    color:orange;
+}
+.font-bold {
+    font-weight: bold;
+}
