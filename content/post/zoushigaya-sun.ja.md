@@ -177,6 +177,8 @@ map_directions=[ ["start", "文京区自転車シェアリング E1-05.春日自
 
 これにて、手作り市に来るまでの件は以上になります。
 
+{{% img src="/blog/zoushigaya/chirasi.jpg" %}}
+
 今回の記事で手創り市に行ってみようと思う方は運営のサイトでこれからの日程が確認できますので、<a href="http://www.tezukuriichi.com/home.html" target="_blank">手創り市（鬼子母神）</a>をご覧ください
 
 最後は語りきれなかった手創り市の全景をお見せしながら、手創り市に来るまでの件は以上とさせていただきます
